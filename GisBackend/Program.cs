@@ -7,6 +7,7 @@ using GisBackend.Application.Layers.Queries;
 using FluentValidation;
 using GisBackend.Application.Common.Behaviors;
 using GisBackend.Application.Layers.Commands;
+using GisBackend.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -53,6 +54,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+// Hata Yakalama Sistemini Devreye Alıyoruz
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseHttpsRedirection();
 
