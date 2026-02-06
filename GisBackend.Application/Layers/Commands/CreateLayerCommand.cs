@@ -1,12 +1,13 @@
+using GisBackend.Application.Common;
 using GisBackend.Application.Layers.Interface;
 using GisBackend.Domain.Entities;
 using MediatR;
 
 namespace GisBackend.Application.Layers.Commands
 {
-    public record CreateLayerCommand(string Name, string GeometryType, string? GeometryWkt) : IRequest<Layer>;
+    public record CreateLayerCommand(string Name, string GeometryType, string? GeometryWkt) : IRequest<Result<Layer>>;
 
-    public class CreateLayerCommandHandler : IRequestHandler<CreateLayerCommand, Layer>
+    public class CreateLayerCommandHandler : IRequestHandler<CreateLayerCommand, Result<Layer>>
     {
         private readonly ILayerRepository _repository;
 
@@ -15,7 +16,7 @@ namespace GisBackend.Application.Layers.Commands
             _repository = repository;
         }
 
-        public async Task<Layer> Handle(CreateLayerCommand request, CancellationToken cancellationToken)
+        public async Task<Result<Layer>> Handle(CreateLayerCommand request, CancellationToken cancellationToken)
         {
             var layer = new Layer(
                 Guid.NewGuid(),
@@ -25,7 +26,7 @@ namespace GisBackend.Application.Layers.Commands
             );
 
             await _repository.AddAsync(layer);
-            return layer;
+            return Result<Layer>.Success(layer);
         }
     }
 }

@@ -21,8 +21,17 @@ namespace GisBackend.Controllers
         public async Task<IActionResult> GetAllAsync()
         {
             var query = new GetAllLayersQuery();
-            var layers = await _mediator.Send(query);
-            return Ok(layers);
+            var result = await _mediator.Send(query);
+            
+            return result.IsSuccess ? Ok(result.Value) : BadRequest(result.Error);
+        }
+
+        [Route("getById/{id}")]
+        [HttpGet]
+        public async Task<IActionResult> GetByIdAsync(Guid id)
+        {
+            var result = await _mediator.Send(new GetLayerByIdQuery(id));
+            return result.IsSuccess ? Ok(result.Value) : BadRequest(result.Error);
         }
 
         [Route("createLayer")]
@@ -30,7 +39,16 @@ namespace GisBackend.Controllers
         public async Task<IActionResult> CreateAsync([FromBody] CreateLayerCommand command)
         {
             var result = await _mediator.Send(command);
-            return Ok(result);
+            
+            return result.IsSuccess ? Ok(result.Value) : BadRequest(result.Error);
+        }
+
+        [Route("deleteLayer/{id}")]
+        [HttpDelete]
+        public async Task<IActionResult> DeleteAsync(Guid id)
+        {
+            var result = await _mediator.Send(new DeleteLayerCommand(id));
+            return result.IsSuccess ? Ok() : BadRequest(result.Error);
         }
     }
 }

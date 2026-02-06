@@ -1,12 +1,13 @@
+using GisBackend.Application.Common;
 using GisBackend.Application.Layers.Interface;
 using GisBackend.Domain.Entities;
 using MediatR;
 
 namespace GisBackend.Application.Layers.Queries
 {
-    public record GetAllLayersQuery() : IRequest<IReadOnlyList<Layer>>;
+    public record GetAllLayersQuery() : IRequest<Result<IReadOnlyList<Layer>>>;
 
-    public class GetAllLayersQueryHandler : IRequestHandler<GetAllLayersQuery, IReadOnlyList<Layer>>
+    public class GetAllLayersQueryHandler : IRequestHandler<GetAllLayersQuery, Result<IReadOnlyList<Layer>>>
     {
         private readonly ILayerRepository _repository;
 
@@ -15,9 +16,10 @@ namespace GisBackend.Application.Layers.Queries
             _repository = repository;
         }
 
-        public async Task<IReadOnlyList<Layer>> Handle(GetAllLayersQuery request, CancellationToken cancellationToken)
+        public async Task<Result<IReadOnlyList<Layer>>> Handle(GetAllLayersQuery request, CancellationToken cancellationToken)
         {
-            return await _repository.GetAllAsync();
+            var layers = await _repository.GetAllAsync();
+            return Result<IReadOnlyList<Layer>>.Success(layers);
         }
     }
 }
