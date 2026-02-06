@@ -13,11 +13,17 @@
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.0" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.NetTopologySuite" Version="8.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.1" />
+    <PackageReference Include="Mapster" Version="7.4.0" />
+    <PackageReference Include="NetTopologySuite" Version="2.5.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\GisBackend.Application\GisBackend.Application.csproj" />
-    <ProjectReference Include="..\GisBackend.Infrastructure\GisBackend.Infrastructure.csproj" />
+    <EditorConfigFiles Remove="E:\Codes\denemeler\net core\GisBackend\GisBackend\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="E:\Codes\denemeler\net core\GisBackend\GisBackend\.editorconfig" />
   </ItemGroup>
 
 </Project>

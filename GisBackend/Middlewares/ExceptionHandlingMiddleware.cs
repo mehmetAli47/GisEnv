@@ -45,7 +45,8 @@ namespace GisBackend.Middlewares
                     break;
                 default:
                     response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                    errorResponse.Message = "Sunucu tarafında beklenmedik bir hata oluştu.";
+                    errorResponse.Message = $"Sunucu hatası: {exception.Message}";
+                    errorResponse.Errors = new List<string> { exception.StackTrace ?? "" };
                     break;
             }
 

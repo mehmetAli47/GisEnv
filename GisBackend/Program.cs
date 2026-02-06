@@ -1,14 +1,12 @@
-using GisBackend.Application.Layers.Interface;
-using GisBackend.Infrastructure.Persistence;
-using GisBackend.Infrastructure.Persistence.Repository;
-using GisBackend.Infrastructure.Persistence.Mappers;
+using GisBackend.Core.Application.Common.Interfaces;
+using GisBackend.Core.Infrastructure.Persistence;
+using GisBackend.Core.Infrastructure.Persistence.Repository;
+using GisBackend.Core.Infrastructure.Persistence.Mappers;
 using Microsoft.EntityFrameworkCore;
-using GisBackend.Application.Layers.Queries;
 using FluentValidation;
-using GisBackend.Application.Common.Behaviors;
-using GisBackend.Application.Layers.Commands;
+using GisBackend.Core.Application.Common.Behaviors;
 using GisBackend.Middlewares;
-using GisBackend.Application.Common;
+using GisBackend.Core.Application.Common;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,7 +23,7 @@ builder.Services.AddSwaggerGen();
 // MediatR Configuration
 builder.Services.AddMediatR(cfg => 
 {
-    cfg.RegisterServicesFromAssembly(typeof(GetAllLayersQuery).Assembly);
+    cfg.RegisterServicesFromAssemblies(typeof(Program).Assembly);
     // Bekçilerimizi (Behaviors) sırayla ekliyoruz
     cfg.AddOpenBehavior(typeof(ValidationBehavior<,>));
     cfg.AddOpenBehavior(typeof(TransactionBehavior<,>));
@@ -35,7 +33,7 @@ builder.Services.AddMediatR(cfg =>
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 // FluentValidation Kaydı
-builder.Services.AddValidatorsFromAssembly(typeof(CreateLayerCommandValidator).Assembly);
+builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
 
 // Add DbContext registration here (e.g., using Entity Framework Core)
 builder.Services.AddDbContext<AppDbContext>(options =>

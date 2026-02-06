@@ -1,5 +1,7 @@
-﻿using GisBackend.Application.Layers.Commands;
-using GisBackend.Application.Layers.Queries;
+﻿using GisBackend.Features.Layers.DeleteLayer;
+using GisBackend.Features.Layers.CreateLayer;
+using GisBackend.Features.Layers.GetAllLayers;
+using GisBackend.Features.Layers.GetLayerById;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
