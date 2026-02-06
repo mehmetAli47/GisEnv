@@ -4,6 +4,9 @@ using GisBackend.Infrastructure.Persistence.Repository;
 using GisBackend.Infrastructure.Persistence.Mappers;
 using Microsoft.EntityFrameworkCore;
 using GisBackend.Application.Layers.Queries;
+using FluentValidation;
+using GisBackend.Application.Common.Behaviors;
+using GisBackend.Application.Layers.Commands;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,7 +24,12 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddMediatR(cfg => 
 {
     cfg.RegisterServicesFromAssembly(typeof(GetAllLayersQuery).Assembly);
+    // Validation Behavior'ı MediatR boru hattına ekliyoruz
+    cfg.AddOpenBehavior(typeof(ValidationBehavior<,>));
 });
+
+// FluentValidation Kaydı
+builder.Services.AddValidatorsFromAssembly(typeof(CreateLayerCommandValidator).Assembly);
 
 // Add DbContext registration here (e.g., using Entity Framework Core)
 builder.Services.AddDbContext<AppDbContext>(options =>
