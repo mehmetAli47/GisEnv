@@ -19,9 +19,7 @@ namespace GisBackend.Infrastructure.Persistence.Repository
         public async Task AddAsync(Layer layer)
         {
             var entity = layer.Adapt<LayerEntity>();
-
             await _context.Layers.AddAsync(entity);
-            await _context.SaveChangesAsync();
         }
 
         public async Task<IReadOnlyList<Layer>> GetAllAsync()
@@ -49,7 +47,6 @@ namespace GisBackend.Infrastructure.Persistence.Repository
             if (entity != null)
             {
                 entity.IsDeleted = Status.Passive;
-                await _context.SaveChangesAsync();
             }
         }
     }

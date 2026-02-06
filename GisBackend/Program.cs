@@ -8,6 +8,7 @@ using FluentValidation;
 using GisBackend.Application.Common.Behaviors;
 using GisBackend.Application.Layers.Commands;
 using GisBackend.Middlewares;
+using GisBackend.Application.Common;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,9 +26,13 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddMediatR(cfg => 
 {
     cfg.RegisterServicesFromAssembly(typeof(GetAllLayersQuery).Assembly);
-    // Validation Behavior'ı MediatR boru hattına ekliyoruz
+    // Bekçilerimizi (Behaviors) sırayla ekliyoruz
     cfg.AddOpenBehavior(typeof(ValidationBehavior<,>));
+    cfg.AddOpenBehavior(typeof(TransactionBehavior<,>));
 });
+
+// Unit of Work Kaydı
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 // FluentValidation Kaydı
 builder.Services.AddValidatorsFromAssembly(typeof(CreateLayerCommandValidator).Assembly);
